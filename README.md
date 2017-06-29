@@ -1,0 +1,34 @@
+#weekly-email
+For sending the weekly email out for training nights.
+
+## Setup
+```
+git clone https://github.com/bwindsor/weekly-email.git
+npm install
+```
+
+From [this stackoverflow question](https://stackoverflow.com/questions/26196467/sending-email-via-node-js-using-nodemailer-is-not-working):
+1. Search "Gmail API" from the google API console and click "Enable"
+2. Follow the steps at [https://developers.google.com/gmail/api/quickstart/nodejs]. A slightly modified version of `quickstart.js` is already provided here. Use this one where the guide tells you to.
+3. After following the steps in (2), the generated JSON file in your user directory will contain the `accessToken`, `refreshToken`, and `expires` attributes needed. The `clientId` and `clientSecret` are supplied in the `client_secret` JSON downloadable from the google API console.
+
+Create a `credentials.json` file in the working directory of the project, which should look something like this:
+```Json
+{"user": "my-email@gmail.com",
+"clientId": "xxx.apps.googleusercontent.com",
+"clientSecret": "xxx",
+"refreshToken": "xxx",
+"accessToken": "xxx",
+"expires": 123}
+```
+
+## Running
+Update `index.js` to contain the message you would like, then to run:
+`npm start`
+
+## Use as a module
+```Javascript
+const sendMail = require('./send-mail').default;
+sendMail(mailOptions);
+```
+where `mailOptions` is (as defined by nodemailer)[https://nodemailer.com/message/]
