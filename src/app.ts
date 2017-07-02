@@ -7,7 +7,7 @@ import * as express from "express";
 
 var app = express();
 app.use(bodyParser.json()); // for parsing application/json
-app.use('/', index); // index
+app.use('/', express.static('public'));
 app.use('/trainings', trainings); // trainings api
 app.use('/distribute', distribute); // distribution api
 
