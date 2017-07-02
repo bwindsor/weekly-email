@@ -29,6 +29,13 @@ Update `index.js` to contain the message you would like, then to run:
 ## Use as a module
 ```Javascript
 const sendMail = require('./send-mail').default;
-sendMail(mailOptions);
+
+sendMail({
+  from: 'My Name<my-name@gmail.com>',
+  to: 'Your Name<your-name@gmail.com>',
+  subject: 'Test message',
+  text: 'Body text',
+  html: '<b>Body</b> text'
+});
 ```
 where `mailOptions` is [as defined by nodemailer](https://nodemailer.com/message/)
