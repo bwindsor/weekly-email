@@ -19,7 +19,10 @@ export function getTrainings(filters: TrainingFilters, done: any) {
         whereClause += "date_end <= ?"
         whereArgs.push(filters.before);
     }
-    connection.query("SELECT * FROM " + TABLE_NAME + " WHERE " + whereClause, whereArgs, done);
+    if (whereClause.length) {
+        whereClause = " WHERE " + whereClause;
+    }
+    connection.query("SELECT * FROM " + TABLE_NAME + whereClause, whereArgs, done);
 }
 
 export function readTraining(id : number, done: DataCallback<TrainingSession>) {

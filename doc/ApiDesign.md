@@ -19,7 +19,7 @@ Example `JSON` response for training request:
     organiser_email: "benwindsor@gmail.com",
     organiser_phone: null,
     club: "DRONGO",
-    juniors: true,
+    juniors: 1,
     cost_adult: 3,
     cost_junior: 1.5,
     other_info: "Orienteering shoes are recommended"

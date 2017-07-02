@@ -22,7 +22,10 @@ router.get('/:id', (req, res) => {
 // Get trainings with query parameters
 router.get('/', (req, res) => {
     let x: number
-    let filters: dbread.TrainingFilters;
+    let filters: dbread.TrainingFilters = {
+        before: null,
+        after: null
+    };
     if (req.query.after) {
          x = Number.parseInt(req.query.after);
          if (Number.isNaN(x)) {
@@ -51,6 +54,10 @@ router.get('/', (req, res) => {
 
 // Update a training
 router.put('/:id', (req, res) => {
+    if (req.body.id != req.params.id) {
+        res.status(500).send({error: "ID of data must match ID of URL"});
+        return;
+    }
     dbupdate.updateTraining(req.body, (err:any) => {
         if (err) {
             res.status(500).send(err);
@@ -62,12 +69,19 @@ router.put('/:id', (req, res) => {
 
 // Create a training
 router.post('/', (req, res) => {
-    dbcreate.createTraining(req.body, (err:any, data) => {
+    dbcreate.createTraining(req.body, (err:any, createStatus) => {
         if (err) {
             res.status(500).send(err);
         } else {
-            res.setHeader('Content-Type', 'application/json');
-            res.send(data);
+            dbread.readTraining(createStatus.insertId, (err, data) => {
+                if (err) {
+                    res.status(500).send(err);
+                } else {
+                    res.setHeader('Content-Type', 'application/json');
+                    res.status(200);
+                    res.send(data);
+                }
+            })
         }
     })
 })
