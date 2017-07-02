@@ -14,12 +14,23 @@ From [this stackoverflow question](https://stackoverflow.com/questions/26196467/
 
 Create a `credentials.json` file in the working directory of the project, which should look something like this:
 ```Json
-{"user": "my-email@gmail.com",
-"clientId": "xxx.apps.googleusercontent.com",
-"clientSecret": "xxx",
-"refreshToken": "xxx",
-"accessToken": "xxx",
-"expires": 123}
+{"email": {
+    "user": "my-email@gmail.com",
+    "clientId": "xxx.apps.googleusercontent.com",
+    "clientSecret": "xxx",
+    "refreshToken": "xxx",
+    "accessToken": "xxx",
+    "expires": 123
+    },
+"mysql": {
+    "host": "localhost",
+    "db_name": "trainings",
+    "user": "training",
+    "password": "password",
+    "adminuser": "root",
+    "adminpass": "password"
+    }
+}
 ```
 
 ## Running

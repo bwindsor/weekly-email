@@ -1,17 +1,14 @@
 {
     "compilerOptions": {
         "outDir": "./dist/",
-        "sourceMap": true,
-        "noImplicitAny": true,
+        "alwaysStrict": true,
         "module": "commonjs",
-        "target": "es5",
+        "target": "es2015",
         "allowJs": true,
-        "baseUrl": ".",
-        "paths" :{
-            "*": ["typings/*", "*"]
-        }
+        "inlineSourceMap": true,
+        "inlineSources": true
     },
     "include": [
-        "./src/**/*"
+        "./src/**/**.ts"
     ]
 }

@@ -3,7 +3,7 @@ const fs = require('fs');
 
 function sendMail(mailOptions) {
 	
-	fs.readFile('credentials.json', (err, content) => {
+	fs.readFile('./credentials.json', (err, content) => {
 		if (err) {
 			console.log(err);
 		} else {
