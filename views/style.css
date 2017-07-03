@@ -11,18 +11,26 @@ h2 {
 }
 table {
     width: 100%;
-    margin: 5px;
-    border: 2px solid black;
     border-collapse: collapse;
+}
+table.one-week {
+    margin: 0px;
+    border: 2px solid black;
 }
 
 tr:nth-child(odd) {
     background: lightblue;
 }
+tr.main-table {
+    background: transparent;
+}
+tr.main-table>td {
+    padding-bottom: 1em;
+}
 td {
     padding: 0px 5px 0px 5px;
 }
-td:first-child {
+:not(.main-table)>td:first-child {
     font-weight: bold;
     width: 100px;
 }
