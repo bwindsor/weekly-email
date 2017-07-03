@@ -75,12 +75,14 @@ Returns `201 CREATED` with body containing a JSON object which includes the `id`
 Returns a `200 OK` response if delete was successful.
 
 ## Send the weekly email for a session
-`POST /distribute`
+`POST /distribute?type`
+
+The query string can be omitted, or can be `?test=1` or `?test=0`. The query string must be set to `?test=0` in order to send the actual weekly email. Be default a test message is sent.
 
 The message body can optionally contain a welcome message to go at the top of the email. This should be an array of strings, corresponding to paragraphs.
 ```Json
 {
-    welcome_text: ["Hi all,", "This is the first email from me!", "Ben"]
+    "welcome_text": ["Hi all,", "This is the first email from me!", "Ben"]
 }
 ```
 

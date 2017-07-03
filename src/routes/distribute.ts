@@ -10,6 +10,7 @@ var createTextVersion = require("textversionjs");
 
 const FROM_ADDRESS = credentials.email.from_address;
 const TO_ADDRESS = credentials.email.to_address;
+const TO_ADDRESS_TEST = credentials.email.to_address_test;
 const SUBJECT = 'Orienteering This Week';
 
 const router = express.Router();
@@ -27,7 +28,7 @@ router.post('/', (req, res) => {
                     inlineCss(html, {url: ' '}).then(inlinedHtml => {
                         sendMail({
                             from: FROM_ADDRESS,
-                            to: TO_ADDRESS,
+                            to: (req.query.test==="0")?TO_ADDRESS:TO_ADDRESS_TEST,
                             subject: SUBJECT,
                             text: createTextVersion(html),
                             html: inlinedHtml

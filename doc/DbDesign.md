@@ -15,11 +15,11 @@ Field | Definition | Description
 `parking_lat` | DECIMAL(10,7) | Latitude of the car park
 `parking_lon` | DECIMAL(10,7) | Longitude of the car park
 `parking_info` | VARCHAR(2000) | Further information about parking e.g. restrictions, cost
-* `organiser_name` | CHAR(50) | Name of the organiser
-* `organiser_email` | CHAR(100) | Contact email for the organiser
-* `organiser_phone` | CHAR(20) | Contact phone for the organiser
-* `club` | CHAR(10) | Name of the organising club
-* `juniors` | BOOLEAN | Whether this is suitable for juniors
-* `cost_adult` | DECIMAL(8,2) | Cost for the session per adult
-* `cost_junior` | DECIMAL(8,2) | Cost for the session per junior/student
-* `other_info` | VARCHAR(2000) | Any other specific information e.g. health and safety, which shoes to wear
+`organiser_name` | CHAR(50) | Name of the organiser
+`organiser_email` | CHAR(100) | Contact email for the organiser
+`organiser_phone` | CHAR(20) | Contact phone for the organiser
+`club` | CHAR(10) | Name of the organising club
+`juniors` | BOOLEAN | Whether this is suitable for juniors
+`cost_adult` | DECIMAL(8,2) | Cost for the session per adult
+`cost_junior` | DECIMAL(8,2) | Cost for the session per junior/student
+`other_info` | VARCHAR(2000) | Any other specific information e.g. health and safety, which shoes to wear
