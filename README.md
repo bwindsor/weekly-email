@@ -5,6 +5,9 @@ For sending the weekly email out for training nights.
 ```sh
 git clone https://github.com/bwindsor/weekly-email.git
 npm install
+npm run build
+npm run setup
+npm start
 ```
 
 From [this stackoverflow question](https://stackoverflow.com/questions/26196467/sending-email-via-node-js-using-nodemailer-is-not-working):
