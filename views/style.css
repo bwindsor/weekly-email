@@ -26,3 +26,6 @@ td:first-child {
     font-weight: bold;
     width: 100px;
 }
+div.future-week {
+    margin-bottom: 10px;
+}
