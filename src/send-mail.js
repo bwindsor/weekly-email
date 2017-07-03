@@ -1,5 +1,6 @@
 const nodemailer = require('nodemailer');
 const fs = require('fs');
+const pug = require('pug');
 
 function sendMail(mailOptions) {
 	
@@ -7,7 +8,7 @@ function sendMail(mailOptions) {
 		if (err) {
 			console.log(err);
 		} else {
-			sendAuthorisedMessage(JSON.parse(content), mailOptions);
+			sendAuthorisedMessage(JSON.parse(content).email, mailOptions);
 		}
 	})
 	

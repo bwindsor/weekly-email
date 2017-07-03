@@ -2,12 +2,16 @@
 import trainings from "./routes/trainings";
 import index from "./routes/index";
 import distribute from "./routes/distribute";
+import preview from "./routes/preview";
 import * as bodyParser from "body-parser";
 import * as express from "express";
 
 var app = express();
+app.set('view engine', 'pug');
+app.set('views', './views');
 app.use(bodyParser.json()); // for parsing application/json
 app.use('/', express.static('public'));
+app.use('/preview', preview); // trainings api
 app.use('/trainings', trainings); // trainings api
 app.use('/distribute', distribute); // distribution api
 

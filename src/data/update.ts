@@ -5,8 +5,8 @@ import * as mysql from 'mysql'
 import * as dbread from './read'
 
 export function updateTraining(data : TrainingSession, done: any) {
-    let keys = Object.keys(data).filter(x => x!="id");
-    let values = keys.map(x => { return ((data[x]===null) ? "NULL" : data[x].toString()) });
+    let keys = Object.keys(data).filter(x => {return (x!="id") && (data[x] != null)});
+    let values = keys.map(x => { return data[x].toString() });
     values.push(data.id);
     
     dbread.readTraining(data.id, (err, data) => {

@@ -20,7 +20,9 @@ Create a `credentials.json` file in the working directory of the project, which 
     "clientSecret": "xxx",
     "refreshToken": "xxx",
     "accessToken": "xxx",
-    "expires": 123
+    "expires": 123,
+    "from_address": "Ben Windsor<my-email@gmail.com>",
+    "to_address": "Training List<their-email@lists.com>"
     },
 "mysql": {
     "host": "localhost",

@@ -1,0 +1,28 @@
+body {
+    font-family: sans-serif;
+    max-width: 900px;
+    width: 100%;
+}
+h1 {
+    color: darkblue;
+}
+h2 {
+    color: midnightblue;
+}
+table {
+    width: 100%;
+    padding: 5px;
+    border: 2px solid black;
+    border-collapse: collapse;
+}
+
+tr:nth-child(odd) {
+    background: lightblue;
+}
+td {
+    padding: 0px 5px 0px 5px;
+}
+td:first-child {
+    font-weight: bold;
+    width: 100px;
+}

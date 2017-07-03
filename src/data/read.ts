@@ -7,14 +7,14 @@ export interface TrainingFilters {
     before: number | null;
 }
 
-export function getTrainings(filters: TrainingFilters, done: any) {
+export function getTrainings(filters: TrainingFilters | null, done: any) {
     let whereClause = "";
     let whereArgs = [];
-    if (filters.after != null) {
+    if (filters != null && filters.after != null) {
         whereClause += "date_start >= ?"
         whereArgs.push(filters.after);
     }
-    if (filters.before != null) {
+    if (filters != null && filters.before != null) {
         if (whereClause.length) { whereClause += " AND " }
         whereClause += "date_end <= ?"
         whereArgs.push(filters.before);
@@ -22,7 +22,7 @@ export function getTrainings(filters: TrainingFilters, done: any) {
     if (whereClause.length) {
         whereClause = " WHERE " + whereClause;
     }
-    connection.query("SELECT * FROM " + TABLE_NAME + whereClause, whereArgs, done);
+    connection.query("SELECT * FROM " + TABLE_NAME + whereClause + " ORDER BY date_start ASC", whereArgs, done);
 }
 
 export function readTraining(id : number, done: DataCallback<TrainingSession>) {

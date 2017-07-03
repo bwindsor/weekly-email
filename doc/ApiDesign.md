@@ -77,8 +77,11 @@ Returns a `200 OK` response if delete was successful.
 ## Send the weekly email for a session
 `POST /distribute`
 
-Example request body to delete session with `id` 2:
+The message body can optionally contain a welcome message to go at the top of the email. This should be an array of strings, corresponding to paragraphs.
 ```Json
-{id: 2}
+{
+    welcome_text: ["Hi all,", "This is the first email from me!", "Ben"]
+}
 ```
+
 Returns `200 OK` if the send was successful.

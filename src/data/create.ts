@@ -14,11 +14,11 @@ export function createTable(table_name: string) {
 }
 
 export function createTraining(data : NewTrainingSession, done: DataCallback<TrainingSession>) {
-    let fields_to_use = field_names.filter(x => x != "id");
+    let fields_to_use = field_names.filter(x => {return (x != "id") && (data[x] != null)});
     connection.query("INSERT INTO " + TABLE_NAME + " (" + 
         fields_to_use
             .reduce((x,y,i,a) => {return x+y+((i==a.length-1)?"":",")}, '') +
     ") VALUES (" + Array(fields_to_use.length).join("?,") + "?)", 
-    fields_to_use.map(f => {return (data[f] === null) ? "NULL" : data[f].toString()}),
+    fields_to_use.map(f => {return data[f].toString()}),
     done)
 }
