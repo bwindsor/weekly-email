@@ -46,12 +46,12 @@ The response is an array of training information, as shown above
         "id": 0,
         "date_start": 149663225,
         ...
-		"other_info": null
+        "other_info": null
     },
     {
         "id": 7,
-        date_start: 149558023,
-		...
+        "date_start": 149558023,
+        ...
         "other_info": null
     }
 ]
