@@ -2,27 +2,27 @@
 Example `JSON` response for training request:
 ```Json
 {
-    id: 5,
-    date_start: 149536552,
-    date_end: 149536553,
-    location_name: "Wandlebury",
-    address: null,
-    description: "Map memory",
-    start_lat: 52.3365,
-    start_lon: 0.2536,
-    first_start_time: "18:00:00",
-    last_start_time: "18:30:00",
-    parking_lat: 52.3360,
-    parking_lon: 0.2542,
-    parking_info: "Cost £3. Parking closes at 10pm",
-    organiser_name: "Ben Windsor",
-    organiser_email: "benwindsor@gmail.com",
-    organiser_phone: null,
-    club: "DRONGO",
-    juniors: 1,
-    cost_adult: 3,
-    cost_junior: 1.5,
-    other_info: "Orienteering shoes are recommended"
+    "id": 5,
+    "date_start": 149536552,
+    "date_end": 149536553,
+    "location_name": "Wandlebury",
+    "address": null,
+    "description": "Map memory",
+    "start_lat": 52.3365,
+    "start_lon": 0.2536,
+    "first_start_time": "18:00:00",
+    "last_start_time": "18:30:00",
+    "parking_lat": 52.3360,
+    "parking_lon": 0.2542,
+    "parking_info": "Cost £3. Parking closes at 10pm",
+    "organiser_name": "Ben Windsor",
+    "organiser_email": "benwindsor@gmail.com",
+    "organiser_phone": null,
+    "club": "DRONGO",
+    "juniors": 1,
+    "cost_adult": 3,
+    "cost_junior": 1.5,
+    "other_info": "Orienteering shoes are recommended"
 }
 ```
 
@@ -39,18 +39,20 @@ Filter name | Type | Required | Description
 after | integer | no | Get trainings after this Unix time
 before | integer | no | Get trainings after this Unix time
 
-The response is an array of simple event information
+The response is an array of training information, as shown above
 ```Json
 [
     {
-        id: 0,
-        date_start: 149663225,
-        location_name: "Wandlebury"
+        "id": 0,
+        "date_start": 149663225,
+        ...
+		"other_info": null
     },
     {
-        id: 7,
+        "id": 7,
         date_start: 149558023,
-        location_name: "Malcolm Street"
+		...
+        "other_info": null
     }
 ]
 ```
