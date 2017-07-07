@@ -14,7 +14,7 @@ router.get('/:id', (req, res) => {
             res.status(500).send(err);
         } else {
             res.setHeader('Content-Type', 'application/json');
-            res.send(data);
+            res.send(data[0]);
         }
     })
 });

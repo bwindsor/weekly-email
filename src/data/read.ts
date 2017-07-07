@@ -30,6 +30,6 @@ export function getTrainings(filters: TrainingFilters | null, done: any) {
     connection.query("SELECT " + selection + " FROM " + TABLE_NAME + whereClause + " ORDER BY date_start ASC", whereArgs, done);
 }
 
-export function readTraining(id : number, done: DataCallback<TrainingSession>) {
+export function readTraining(id : number, done: DataCallback<TrainingSession[]>) {
     connection.query("SELECT * FROM " + TABLE_NAME + " WHERE id=?", [id], done);
 }
