@@ -4,7 +4,12 @@ import * as dbread from "../data/read"
 const router = express.Router();
 
 router.get('/', (req, res) => {
-    dbread.getTrainings(null, (err, data) => {
+    let filters: dbread.TrainingFilters = {
+        after: (new Date()).getTime()/1000,
+        before: null
+    }
+
+    dbread.getTrainings(filters, (err, data) => {
         if (err) {
             res.status(500).send(err);
         } else {

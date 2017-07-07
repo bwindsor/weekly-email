@@ -17,7 +17,13 @@ const router = express.Router();
 
 // Distribute a training
 router.post('/', (req, res) => {
-    dbread.getTrainings(null, (err, data) => {
+    // Filter for only future data
+    let filters: dbread.TrainingFilters = {
+        after: (new Date()).getTime()/1000,
+        before: null
+    }
+
+    dbread.getTrainings(filters, (err, data) => {
         if (err) {
             res.status(500).send(err);
         } else {
