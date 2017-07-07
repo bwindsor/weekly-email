@@ -24,7 +24,8 @@ router.get('/', (req, res) => {
     let x: number
     let filters: dbread.TrainingFilters = {
         before: null,
-        after: null
+        after: null,
+        fields: ["id","date_start","location_name","start_lat","start_lon"]
     };
     if (req.query.after) {
          x = Number.parseInt(req.query.after);

@@ -5,11 +5,13 @@ import * as mysql from 'mysql'
 export interface TrainingFilters {
     after: number | null;
     before: number | null;
+    fields?: string[]
 }
 
 export function getTrainings(filters: TrainingFilters | null, done: any) {
     let whereClause = "";
     let whereArgs = [];
+    let selection = "*";
     if (filters != null && filters.after != null) {
         whereClause += "date_start >= ?"
         whereArgs.push(filters.after);
@@ -19,10 +21,13 @@ export function getTrainings(filters: TrainingFilters | null, done: any) {
         whereClause += "date_end <= ?"
         whereArgs.push(filters.before);
     }
+    if (filters != null && filters.fields) {
+        selection = connection.escapeId(filters.fields)   // Escape in case dangerous field entered
+    }
     if (whereClause.length) {
         whereClause = " WHERE " + whereClause;
     }
-    connection.query("SELECT * FROM " + TABLE_NAME + whereClause + " ORDER BY date_start ASC", whereArgs, done);
+    connection.query("SELECT " + selection + " FROM " + TABLE_NAME + whereClause + " ORDER BY date_start ASC", whereArgs, done);
 }
 
 export function readTraining(id : number, done: DataCallback<TrainingSession>) {

@@ -39,20 +39,22 @@ Filter name | Type | Required | Description
 after | integer | no | Get trainings after this Unix time
 before | integer | no | Get trainings after this Unix time
 
-The response is an array of training information, as shown above
+The response is an array of simple training information, as shown in the example:
 ```Json
 [
     {
         "id": 0,
         "date_start": 149663225,
-        ...
-        "other_info": null
+        "location_name": "Wandlebury",
+        "start_lat": 52.1111,
+        "start_lon": 0.1234
     },
     {
         "id": 7,
         "date_start": 149558023,
-        ...
-        "other_info": null
+        "location_name": "TBC",
+        "start_lat": null,
+        "start_lon": null
     }
 ]
 ```
