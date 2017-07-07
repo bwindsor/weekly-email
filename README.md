@@ -10,6 +10,11 @@ npm run setup
 npm start
 ```
 
+To specify a different static folder, use
+```sh
+node dist/index.js path/to/my/static/folder
+```
+
 From [this stackoverflow question](https://stackoverflow.com/questions/26196467/sending-email-via-node-js-using-nodemailer-is-not-working):
 1. Search "Gmail API" from the google API console and click "Enable"
 2. Follow the steps [supplied by Google](https://developers.google.com/gmail/api/quickstart/nodejs). A slightly modified version of `quickstart.js` is already provided here. Use this one where the guide tells you to.
