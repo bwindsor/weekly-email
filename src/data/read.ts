@@ -33,3 +33,15 @@ export function getTrainings(filters: TrainingFilters | null, done: any) {
 export function readTraining(id : number, done: DataCallback<TrainingSession[]>) {
     connection.query("SELECT * FROM " + TABLE_NAME + " WHERE id=?", [id], done);
 }
+
+export function exists(id: number, done: (b:boolean)=>void) {
+    readTraining(id, (err, data) => {
+        if (err) {
+            done(false);
+        } else if (data.length == 0) {
+            done(false)
+        } else {
+            done(true)
+        }
+    })
+}

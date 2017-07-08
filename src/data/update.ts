@@ -9,10 +9,8 @@ export function updateTraining(data : TrainingSession, done: any) {
     let values = keys.map(x => { return data[x].toString() });
     values.push(data.id);
     
-    dbread.readTraining(data.id, (err, data) => {
-        if (err) {
-            done(err);
-        } else if (data.length == 0) {
+    dbread.exists(data.id, doesExist=> {
+        if (!doesExist) {
             done({error: "Record for that ID does not exist"})
         } else {
             connection.query("UPDATE " + TABLE_NAME + " SET " + 
