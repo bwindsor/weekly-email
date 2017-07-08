@@ -2,6 +2,7 @@
 For sending the weekly email out for training nights.
 
 ## Setup
+You will need [MySQL server](https://dev.mysql.com/downloads/mysql/) installed, or access to a remote instance of it.
 ```sh
 git clone https://github.com/bwindsor/weekly-email.git
 npm install
