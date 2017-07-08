@@ -1,14 +1,23 @@
 import {TrainingSession, NewTrainingSession, DataCallback} from "./types.d"
-import {connection, TABLE_NAME} from './common'
+import {pool, TABLE_NAME} from './common'
 import * as dbread from './read'
 import * as mysql from 'mysql'
 
 export function deleteTraining(id : number, done: any) {
-    dbread.exists(id, doesExist=> {
-        if (!doesExist) {
-            done({error: 'Record does not exist'})
-        } else {
-            connection.query("DELETE FROM " + TABLE_NAME + " WHERE id=?", [id], done);
+    pool.getConnection((err, connection) => {
+        if (err) {
+            done(err);
+            return;
         }
+        dbread.exists(id, doesExist=> {
+            if (!doesExist) {
+                done({error: 'Record does not exist'})
+            } else {
+                connection.query("DELETE FROM " + TABLE_NAME + " WHERE id=?", [id], (err,res)=>{
+                    connection.release()
+                    done(err,res)
+                });
+            }
+        })
     })
 }

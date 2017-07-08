@@ -3,15 +3,11 @@ import * as fs from 'fs'
 import credentials from './credentials'
 
 export const TABLE_NAME = "trainings";
-export var connection : mysql.IConnection;
+export var pool : mysql.IPool;
 
-connection = mysql.createConnection({
-    host     : credentials.mysql.host,
-    user     : credentials.mysql.user,
-    password : credentials.mysql.password,
-    database : credentials.mysql.db_name
-});
-
-connection.connect(function(err) {
-    if (err) throw err;
+pool  = mysql.createPool({
+  host     : credentials.mysql.host,
+  user     : credentials.mysql.user,
+  password : credentials.mysql.password,
+  database : credentials.mysql.db_name
 });

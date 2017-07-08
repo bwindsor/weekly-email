@@ -26,7 +26,7 @@ export interface TrainingSession extends NewTrainingSession {
     id: number
 }
 
-export interface DataCallback<T> { (err: Error, data: T): void }
+export interface DataCallback<T> { (err: any, data: T): void }
 
 export interface MySqlCredentials {
     host: string,
