@@ -6,6 +6,7 @@ import * as inlineCss from "inline-css"
 import sendMail from "../send-mail"
 import credentials from '../data/credentials'
 import * as fs from 'fs'
+import {} from ''
 var createTextVersion = require("textversionjs");
 
 const FROM_ADDRESS = credentials.email.from_address;
@@ -26,27 +27,36 @@ router.post('/', (req, res) => {
     dbread.getTrainings(filters, (err, data) => {
         if (err) {
             res.status(500).send(err);
-        } else {
-            pug.renderFile('./views/weekly-email.pug', {data, welcome_text: (req.body.welcome_text)?req.body.welcome_text:[]}, (err, html) => {
-                if (err) {
-                    res.status(500).send(err);
-                } else {
-                    inlineCss(html, {url: ' '}).then(inlinedHtml => {
-                        sendMail({
-                            from: FROM_ADDRESS,
-                            to: (req.query.test==="0")?TO_ADDRESS:TO_ADDRESS_TEST,
-                            subject: SUBJECT,
-                            text: createTextVersion(html),
-                            html: inlinedHtml
-                        });
-                        res.setHeader('Content-Type', 'text/html')
-                        res.status(200).send(html)
-                    }).catch(err => {
-                        res.status(500).send(err);
-                    })
-                }
-            })
+            return;
         }
+        if (req.query.limittoweek==="1") {
+            let timeNow = (new Date()).getTime()/1000
+            let midnightTonight = Math.ceil(timeNow/86400)*86400
+            if (data.length == 0 || (data[0].date_start > (midnightTonight + 7*86400))) {
+                res.status(200).json({info: "Email not sent because no data within a week"})
+                return;
+            }
+        }
+
+        pug.renderFile('./views/weekly-email.pug', {data, welcome_text: (req.body.welcome_text)?req.body.welcome_text:[]}, (err, html) => {
+            if (err) {
+                res.status(500).send(err);
+            } else {
+                inlineCss(html, {url: ' '}).then(inlinedHtml => {
+                    sendMail({
+                        from: FROM_ADDRESS,
+                        to: (req.query.test==="0")?TO_ADDRESS:TO_ADDRESS_TEST,
+                        subject: SUBJECT,
+                        text: createTextVersion(html),
+                        html: inlinedHtml
+                    });
+                    res.setHeader('Content-Type', 'text/html')
+                    res.status(200).send(html)
+                }).catch(err => {
+                    res.status(500).send(err);
+                })
+            }
+        })
     })
 });
 
