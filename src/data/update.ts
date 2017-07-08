@@ -5,22 +5,12 @@ import * as mysql from 'mysql'
 import * as dbread from './read'
 
 export function updateTraining(data : TrainingSession, done: any) {
-    let keys = Object.keys(data).filter(x => {return (x!="id") && (data[x] != null)});
-    let values = keys.map(x => { return data[x].toString() });
-    values.push(data.id);
     
     dbread.exists(data.id, doesExist=> {
         if (!doesExist) {
             done({error: "Record for that ID does not exist"})
         } else {
-            connection.query("UPDATE " + TABLE_NAME + " SET " + 
-                keys
-                    .map(x => {return x + " = ?"})
-                    .reduce((x,y,i,a) => {return x + y + ((i==a.length-1)?"":",")}, '')
-                + " WHERE id=?",
-                values,
-                done
-            )
+            connection.query("UPDATE " + TABLE_NAME + " SET ? WHERE ID=?", [data, data.id], done)
         }
     })
 }

@@ -1,6 +1,7 @@
 import {TrainingSession, NewTrainingSession, DataCallback} from "./types.d"
 import {connection, TABLE_NAME} from './common'
 import * as mysql from 'mysql'
+import * as contract from './contract'
 
 export interface TrainingFilters {
     after: number | null;
@@ -23,6 +24,8 @@ export function getTrainings(filters: TrainingFilters | null, done: any) {
     }
     if (filters != null && filters.fields) {
         selection = connection.escapeId(filters.fields)   // Escape in case dangerous field entered
+    } else {
+        selection = contract.standard_selection.join(', ')  // Don't escape this since it's server side and contains sql things
     }
     if (whereClause.length) {
         whereClause = " WHERE " + whereClause;
@@ -31,7 +34,8 @@ export function getTrainings(filters: TrainingFilters | null, done: any) {
 }
 
 export function readTraining(id : number, done: DataCallback<TrainingSession[]>) {
-    connection.query("SELECT * FROM " + TABLE_NAME + " WHERE id=?", [id], done);
+    let selection = contract.standard_selection.join(', ')
+    connection.query("SELECT " + selection + " FROM " + TABLE_NAME + " WHERE id=?", [id], done);
 }
 
 export function exists(id: number, done: (b:boolean)=>void) {
