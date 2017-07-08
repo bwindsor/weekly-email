@@ -80,7 +80,7 @@ router.post('/', (req, res) => {
                 } else {
                     res.setHeader('Content-Type', 'application/json');
                     res.status(200);
-                    res.send(data);
+                    res.send(data[0]);
                 }
             })
         }
