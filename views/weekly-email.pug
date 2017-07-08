@@ -14,12 +14,4 @@ html
         h1 Cambridge Training Nights
         each w in welcome_text
             p #{w}
-        h2 This week at #{d.location_name}
-        p
-            include includes/this-week-details.pug
-        h2 Coming up...
-        table
-            each d in data
-                tr(class='main-table')
-                    td
-                        include includes/future-week-details.pug
+        include includes/all-week-details.pug
