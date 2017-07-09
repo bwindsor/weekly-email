@@ -5,16 +5,19 @@ import * as mysql from 'mysql'
 
 createTable(TABLE_NAME);
 
-export function createTable(table_name: string) {
+export function createTable(table_name: string, done?: any) {
     pool.getConnection((err, connection) => {
         if (err) {
-            throw err
+            if (done) {done(err); return} else {throw err}
         }
         connection.query("CREATE TABLE IF NOT EXISTS " + table_name + " (" + 
         field_definitions.reduce((x,y,i,a)=>{return x+field_names[i]+ " " + y + ((i==a.length-1)?"":",")}, "")
         + ")", err => {
             connection.release()
-            if (err) throw err;
+            if (err) {
+                if (done) {done(err)} else {throw err};
+            }
+            if (done) {done()}
         })
     })
 }

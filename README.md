@@ -49,6 +49,16 @@ Create a `credentials.json` file in the working directory of the project, which 
 Update `index.js` to contain the message you would like, then to run:
 `npm start`
 
+## Testing
+`npm run build` builds the source code including inline source maps and tests, outputting to the `build` directory
+`npm run build-production` builds the source code without source maps or tests, outputting to the `dist` directory
+`npm run test`
+
+## Environment variables
+`TEST_ENVIRONMENT` Setting this to `"1"` will mean the tests don't actually send the email (but do everything else) and will mean that the test table is used instead
+
+`TABLE_NAME` To override the default table name of `trainings` then set this.
+
 ## Use as a module
 ```Javascript
 const sendMail = require('./send-mail').default;

@@ -10,8 +10,8 @@ Example `JSON` response for training request:
     "description": "Map memory",
     "start_lat": 52.3365,
     "start_lon": 0.2536,
-    "first_start_time": "18:00:00",
-    "last_start_time": "18:30:00",
+    "first_start_time": "18:00",
+    "last_start_time": "18:30",
     "parking_lat": 52.3360,
     "parking_lon": 0.2542,
     "parking_info": "Cost £3. Parking closes at 10pm",
@@ -71,12 +71,12 @@ Returns `200 OK` if the update was successful.
 
 Request body should be the same as the example - but the `id` field, if present, is ignored since this is created by the server.
 
-Returns `201 CREATED` with body containing a JSON object which includes the `id` field.
+Returns `201 CREATED` with body containing JSON object containing just the `id` field, such as `{"id": 5}`
 
 ## Delete a session
 `DELETE /trainings/:id`
 
-Returns a `200 OK` response if delete was successful.
+Returns a `204 NO CONTENT` response if delete was successful.
 
 ## Send the weekly email for a session
 `POST /distribute?options`
