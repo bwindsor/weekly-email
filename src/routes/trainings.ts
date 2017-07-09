@@ -35,7 +35,7 @@ router.get('/', (req, res) => {
     if (req.query.after) {
          x = Number.parseInt(req.query.after);
          if (Number.isNaN(x)) {
-            res.status(400).send("Invalid after query");
+            res.status(400).json({error: "Invalid after query"});
             return;
          }
         filters.after = req.query.after;
@@ -43,7 +43,7 @@ router.get('/', (req, res) => {
     if (req.query.before) {
          x = Number.parseInt(req.query.before);
          if (Number.isNaN(x)) {
-            res.status(400).send("Invalid before query");
+            res.status(400).json({error: "Invalid before query"});
             return;
          }
         filters.before = req.query.before;
@@ -99,13 +99,18 @@ router.post('/', (req, res) => {
 
 // Delete a training
 router.delete('/:id', (req, res) => {
-    dbdelete.deleteTraining(req.params.id, (err : any) => {
-        if (err) {
-            res.status(500).send(err);
-        } else {
-            res.status(200).send();
+    dbread.exists(req.params.id, doesExist => {
+        if (!doesExist) {
+            res.status(404).json({error: "Resource does not exist"})
         }
-    });
+        dbdelete.deleteTraining(req.params.id, (err : any) => {
+            if (err) {
+                res.status(500).json({error: err});
+            } else {
+                res.status(204).json();
+            }
+        })
+    })
 })
 
 export default router;

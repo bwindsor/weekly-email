@@ -95,8 +95,8 @@ function doDeleteTest(endpoint, dbData, expectedStatusCode, expectedData, done) 
         if (err) {done(err); return}
         supertest(app)
             .delete(endpoint)
-            .expect('Content-Type', /json/)
             .expect(expectedStatusCode, expectedData, (err, res) => {
+                if (err) {done(err); return}
                 if (res.status == 204) {
                     // check it is deleted
                     supertest(app)
@@ -262,11 +262,11 @@ describe('trainings', () => {
     describe('DELETE /trainings/:id', () => {
         it('deletes an existing training and returns 204 no data', (done) => {
             let data = generateExampleShortRecords(5)
-            doDeleteTest('/delete/3', data, 204, '', done)
+            doDeleteTest('/trainings/3', data, 204, '', done)
         })
         it('returns 404 not found for an invalid id', (done) => {
             let data = generateExampleShortRecords(5)
-            doDeleteTest('/delete/10', data, 404, '', done)
+            doDeleteTest('/trainings/10', data, 404, {error: "Resource does not exist"}, done)
         })
     })
     describe('POST /distribute', () => {
