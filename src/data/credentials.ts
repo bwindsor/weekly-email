@@ -7,7 +7,7 @@ if (!credentials.mysql) {
     credentials = {
         ...credentials,
         mysql: {
-            host: process.env.RDS_HOSTNAME + ':' + process.env.RDS_PORT,
+            host: process.env.RDS_HOSTNAME,
             db_name: process.env.RDS_DB_NAME,
             user: process.env.RDS_USERNAME,
             password: process.env.RDS_PASSWORD,
