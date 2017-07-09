@@ -9,9 +9,9 @@ import * as fs from 'fs'
 import {} from ''
 var createTextVersion = require("textversionjs");
 
-const FROM_ADDRESS = credentials.email.from_address;
-const TO_ADDRESS = credentials.email.to_address;
-const TO_ADDRESS_TEST = credentials.email.to_address_test;
+const FROM_ADDRESS = credentials.email.from;
+const TO_ADDRESS = credentials.email.to;
+const TO_ADDRESS_TEST = credentials.email.toTest;
 const SUBJECT = 'Orienteering This Week';
 
 const router = express.Router();
@@ -50,10 +50,17 @@ router.post('/', (req, res) => {
                             subject: SUBJECT,
                             text: createTextVersion(html),
                             html: inlinedHtml
+                        }, (err, info) => {
+                            if (err) {
+                                res.status(500).json({error: err})
+                            } else {
+                                res.setHeader('Content-Type', 'text/html')
+                                res.status(200).send(html)
+                            }
                         });
+                    } else {
+                        res.status(200).send(html)
                     }
-                    res.setHeader('Content-Type', 'text/html')
-                    res.status(200).send(html)
                 }).catch(err => {
                     res.status(500).json({error: err});
                 })

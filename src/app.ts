@@ -77,7 +77,8 @@ app.use((req, res, next) => {
 
 	// if user is authenticated in the session, carry on
     // also allow them to authenticate via query string
-	if (req.isAuthenticated() || (req.query.username == credentials.web.username && req.query.password == credentials.web.password)) {
+    // Don't authenticate if we are in test mode
+	if (req.isAuthenticated() || process.env.TEST_ENVIRONMENT=="1"|| (req.query.username == credentials.web.username && req.query.password == credentials.web.password)) {
 		return next();
     }
 
