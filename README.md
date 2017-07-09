@@ -23,24 +23,28 @@ From [this stackoverflow question](https://stackoverflow.com/questions/26196467/
 
 Create a `credentials.json` file in the working directory of the project, which should look something like this:
 ```Json
-{"email": {
-    "user": "my-email@gmail.com",
-    "clientId": "xxx.apps.googleusercontent.com",
-    "clientSecret": "xxx",
-    "refreshToken": "xxx",
-    "accessToken": "xxx",
-    "expires": 123,
-    "from_address": "Ben Windsor<my-email@gmail.com>",
-    "to_address": "Training List<their-email@lists.com>",
-    "to_address_test": "Training List<my-test-email@lists.com>"
+{
+    "aws": {
+        "accessKeyId": "aws-access-key-id",
+        "secretAccessKey": "aws-secret-access-key",
+        "region": "us-east-1"
     },
-"mysql": {
-    "host": "localhost",
-    "db_name": "trainings",
-    "user": "training",
-    "password": "password",
-    "adminuser": "root",
-    "adminpass": "password"
+    "email": {
+        "from": "Ben Windsor<mygmail@gmail.com>",
+        "to": "Training List<theirgmail@lists.com>",
+        "toTest": "Training List Test<myemail@gmail.com>"
+    },
+    "mysql": {
+        "host": "localhost",
+        "db_name": "trainings",
+        "user": "username",
+        "password": "password",
+        "adminuser": "rootuser",
+        "adminpass": "rootpass"
+    },
+    "web": {
+        "username": "web-login-username",
+        "password": "web-login-password"
     }
 }
 ```
