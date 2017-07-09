@@ -9,5 +9,6 @@ pool  = mysql.createPool({
   host     : credentials.mysql.host,
   user     : credentials.mysql.user,
   password : credentials.mysql.password,
-  database : credentials.mysql.db_name
+  database : credentials.mysql.db_name,
+  port     : credentials.mysql.port
 });
