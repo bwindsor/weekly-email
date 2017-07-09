@@ -38,7 +38,19 @@ export interface MySqlCredentials {
     port: number
 }
 
+export interface WebCredentials {
+    username: string,
+    password: string
+}
+
 export interface Credentials {
     email: any,
-    mysql: MySqlCredentials
+    mysql: MySqlCredentials,
+    web: WebCredentials
+}
+
+export interface User {
+    id: number;
+    username: string;
+    password: string;
 }
