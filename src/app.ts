@@ -76,7 +76,8 @@ app.use('/login', login); // login
 app.use((req, res, next) => {
 
 	// if user is authenticated in the session, carry on
-	if (req.isAuthenticated()) {
+    // also allow them to authenticate via query string
+	if (req.isAuthenticated() || (req.query.username == credentials.web.username && req.query.password == credentials.web.password)) {
 		return next();
     }
 
