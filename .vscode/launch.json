@@ -14,12 +14,28 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceRoot}/dist/index.js",
+            "program": "${workspaceRoot}/build/index.js",
             "args": [
                 "../weekly-email-client/dist"
             ],
             "outFiles": [
-                "${workspaceRoot}/dist/**/*.js"
+                "${workspaceRoot}/build/**/*.js"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Debug tests",
+            "env": {
+                "TEST_ENVIRONMENT": "1",
+                "TABLE_NAME": "trainings_test"
+            },
+            "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
+            "args": [
+                "./build/**/*.spec.js"
+            ],
+            "outFiles": [
+                "${workspaceRoot}/build/**/*.js"
             ]
         }
     ]

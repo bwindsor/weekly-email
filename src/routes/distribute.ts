@@ -26,7 +26,7 @@ router.post('/', (req, res) => {
 
     dbread.getTrainings(filters, (err, data) => {
         if (err) {
-            res.status(500).send(err);
+            res.status(500).json({error: err});
             return;
         }
         if (req.query.limittoweek==="1") {
@@ -40,20 +40,22 @@ router.post('/', (req, res) => {
 
         pug.renderFile('./views/weekly-email.pug', {data, welcome_text: (req.body.welcome_text)?req.body.welcome_text:[]}, (err, html) => {
             if (err) {
-                res.status(500).send(err);
+                res.status(500).json({error: err});
             } else {
                 inlineCss(html, {url: ' '}).then(inlinedHtml => {
-                    sendMail({
-                        from: FROM_ADDRESS,
-                        to: (req.query.test==="0")?TO_ADDRESS:TO_ADDRESS_TEST,
-                        subject: SUBJECT,
-                        text: createTextVersion(html),
-                        html: inlinedHtml
-                    });
+                    if (process.env.TEST_ENVIRONMENT != "1") {
+                        sendMail({
+                            from: FROM_ADDRESS,
+                            to: (req.query.test==="0")?TO_ADDRESS:TO_ADDRESS_TEST,
+                            subject: SUBJECT,
+                            text: createTextVersion(html),
+                            html: inlinedHtml
+                        });
+                    }
                     res.setHeader('Content-Type', 'text/html')
                     res.status(200).send(html)
                 }).catch(err => {
-                    res.status(500).send(err);
+                    res.status(500).json({error: err});
                 })
             }
         })

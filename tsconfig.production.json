@@ -1,14 +1,18 @@
 {
     "compilerOptions": {
-        "outDir": "./build/",
+        "outDir": "./dist/",
         "alwaysStrict": true,
         "module": "commonjs",
         "target": "es2015",
         "allowJs": true,
-        "inlineSourceMap": true,
-        "inlineSources": true
+        "inlineSourceMap": false,
+        "inlineSources": false
     },
     "include": [
         "./src/**/**.ts"
+    ],
+    "exclude": [
+        "./src/**/**.spec.ts",
+        "./src/testutils"
     ]
 }

@@ -25,7 +25,7 @@ export function getTrainings(filters: TrainingFilters | null, done: any) {
         }
         if (filters != null && filters.before != null) {
             if (whereClause.length) { whereClause += " AND " }
-            whereClause += "date_end <= ?"
+            whereClause += "date_start <= ?"
             whereArgs.push(filters.before);
         }
         if (filters != null && filters.fields) {

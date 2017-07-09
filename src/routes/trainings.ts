@@ -9,13 +9,18 @@ const router = express.Router();
 
 // Get a training by ID
 router.get('/:id', (req, res) => {
-    dbread.readTraining(req.params.id, (err: any, data) => {
-        if (err) {
-            res.status(500).send(err);
-        } else {
-            res.setHeader('Content-Type', 'application/json');
-            res.send(data[0]);
+    dbread.exists(req.params.id, doesExist => {
+        if (!doesExist) {
+            res.status(404).json({error: "Resource does not exist"})
+            return;
         }
+        dbread.readTraining(req.params.id, (err: any, data) => {
+            if (err) {
+                res.status(500).json({error: err});
+            } else {
+                res.json(data[0]);
+            }
+        })
     })
 });
 
@@ -56,31 +61,36 @@ router.get('/', (req, res) => {
 // Update a training
 router.put('/:id', (req, res) => {
     if (req.body.id != req.params.id) {
-        res.status(500).send({error: "ID of data must match ID of URL"});
+        res.status(400).json({error: "Request id does not match url id"});
         return;
     }
-    dbupdate.updateTraining(req.body, (err:any) => {
-        if (err) {
-            res.status(500).send(err);
-        } else {
-            res.status(200).send();
+    dbread.exists(req.body.id, doesExist => {
+        if (!doesExist) {
+            res.status(404).json({error: "Resource does not exist"})
+            return
         }
-    });
+        dbupdate.updateTraining(req.body, (err:any) => {
+            if (err) {
+                res.status(500).json({error: err});
+            } else {
+                res.status(200).json();
+            }
+        })
+    })
 })
 
 // Create a training
 router.post('/', (req, res) => {
     dbcreate.createTraining(req.body, (err:any, createStatus) => {
         if (err) {
-            res.status(500).send(err);
+            res.status(500).json({error: err});
         } else {
             dbread.readTraining(createStatus.insertId, (err, data) => {
                 if (err) {
-                    res.status(500).send(err);
+                    res.status(500).json({error: err});
                 } else {
-                    res.setHeader('Content-Type', 'application/json');
-                    res.status(200);
-                    res.send(data[0]);
+                    res.status(201);
+                    res.json({id: data[0].id});
                 }
             })
         }
