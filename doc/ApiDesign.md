@@ -99,7 +99,7 @@ The message body can be empty, or can contain a welcome message to go at the top
 Returns `200 OK` if the send was successful.
 
 ## Send the weekly email (no auth)
-`POST /distribute/send-the-weekly-email?options
+`POST /send-the-weekly-email?options
 This is useful when in AWS and a cronjob `POST`s to an endpoint to execute a task. This behaves in exactly the same was as `POST /distribute`, but requires username and password to be supplied in the query string.
 Option name | Type | Required
 ----------- | ---- | --------
