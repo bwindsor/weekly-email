@@ -1,4 +1,3 @@
-
 import * as express from "express";
 import * as dbread from "../data/read"
 import * as pug from "pug"
@@ -18,6 +17,10 @@ const router = express.Router();
 
 // Distribute a training
 router.post('/', (req, res) => {
+    processDistribute(req, res)
+});
+
+export function processDistribute(req, res) {
     // Filter for only future data
     let filters: dbread.TrainingFilters = {
         after: (new Date()).getTime()/1000,
@@ -67,6 +70,6 @@ router.post('/', (req, res) => {
             }
         })
     })
-});
+}
 
 export default router;

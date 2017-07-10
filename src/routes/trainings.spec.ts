@@ -4,8 +4,10 @@ import {createTable} from '../data/create'
 import app from '../app'
 import * as assert from 'assert'
 import {pool, TABLE_NAME} from '../data/common'
+import credentials from '../data/credentials'
 
 assert.notEqual(TABLE_NAME, "trainings")
+let authString = 'username=' + credentials.web.username + '&password=' + credentials.web.password
 
 function deleteTable(done) {
     pool.getConnection((err, connection) => {
@@ -178,95 +180,95 @@ describe('trainings', () => {
     describe('GET /trainings', ()=>{
         it('responds with one record available', (done)=>{
             let data = generateExampleShortRecords(1)
-            doGetTest('/trainings', data, 200, data, done)
+            doGetTest('/trainings?' + authString, data, 200, data, done)
         })
         it('responds with multiple records available', (done)=>{
             let data = generateExampleShortRecords(3)
-            doGetTest('/trainings', data, 200, data, done)
+            doGetTest('/trainings?' + authString, data, 200, data, done)
         })
     })
     describe('GET /trainings?filters', () => {
         it ('responds with only records after a given time', (done) => {
             let data = generateExampleShortRecords(5)
             let time = Math.floor((data[1].date_start + data[2].date_start)/2)
-            doGetTest('/trainings?after='+time.toString(), data, 200, data.slice(2), done)
+            doGetTest('/trainings?after='+time.toString() + '&' + authString, data, 200, data.slice(2), done)
         })
         it ('includes records where time is equal to the filter time (after)', (done) => {
             let data = generateExampleShortRecords(5)
             let time = data[2].date_start
-            doGetTest('/trainings?after='+time.toString(), data, 200, data.slice(2), done)
+            doGetTest('/trainings?after='+time.toString() + '&' + authString, data, 200, data.slice(2), done)
         })
         it ('responds with only records before a given time', (done) => {
             let data = generateExampleShortRecords(5)
             let time = Math.floor((data[1].date_start + data[2].date_start)/2)
-            doGetTest('/trainings?before='+time.toString(), data, 200, data.slice(0,2), done)
+            doGetTest('/trainings?before='+time.toString() + '&' + authString, data, 200, data.slice(0,2), done)
         })
         it ('includes records where time is equal to the filter time (before)', (done) => {
             let data = generateExampleShortRecords(5)
             let time = data[2].date_start
-            doGetTest('/trainings?before='+time.toString(), data, 200, data.slice(0,3), done)
+            doGetTest('/trainings?before='+time.toString() + '&' + authString, data, 200, data.slice(0,3), done)
         })
         it ('responds with only records between given times', (done) => {
             let data = generateExampleShortRecords(5)
             let time1 = Math.floor((data[1].date_start + data[2].date_start)/2)
             let time2 = Math.floor((data[3].date_start + data[4].date_start)/2)
-            doGetTest('/trainings?before='+time2.toString() + '&after=' + time1.toString(), data, 200, data.slice(2,4), done)
+            doGetTest('/trainings?before='+time2.toString() + '&after=' + time1.toString() + '&' + authString, data, 200, data.slice(2,4), done)
         })
     })
     describe('GET /trainings/:id', () => {
         it ('returns the requested full training', (done) => {
             let data = generateExampleShortRecords(5)
-            doGetTest('/trainings/3', data, 200, generateExampleLongRecord(data[2]), done)
+            doGetTest('/trainings/3?' + authString, data, 200, generateExampleLongRecord(data[2]), done)
         })
         it('returns 404 for an invalid id', (done) => {
             let data = generateExampleShortRecords(5)
-            doGetTest('/trainings/efaf', data, 404, {error:"Resource does not exist"}, done)
+            doGetTest('/trainings/efaf?' + authString, data, 404, {error:"Resource does not exist"}, done)
         })
     })
     describe('PUT /trainings/:id', () => {
         it('updates the database with modified data', (done) => {
             let data = generateExampleShortRecords(5)
             let putData = generateExampleLongRecord(data[2])
-            doPutTest('/trainings/3', data, 200, putData, '', done)
+            doPutTest('/trainings/3?' + authString, data, 200, putData, '', done)
         })
         it('returns 404 for an invalid id', (done) => {
             let data = generateExampleShortRecords(5)
             let putData = generateExampleLongRecord(data[2])
-            doPutTest('/trainings/3', data.slice(0,2), 404, putData, {error: "Resource does not exist"}, done)
+            doPutTest('/trainings/3?' + authString, data.slice(0,2), 404, putData, {error: "Resource does not exist"}, done)
         })
         it('returns 400 bad request for an id not matching the url', (done) => {
             let data = generateExampleShortRecords(5)
             let putData = generateExampleLongRecord(data[2])
-            doPutTest('/trainings/4', data, 400, putData, {error: "Request id does not match url id"}, done)
+            doPutTest('/trainings/4?' + authString, data, 400, putData, {error: "Request id does not match url id"}, done)
         })
         it('returns 500 server error for data not matching the db schema', (done) => {
             let data = generateExampleShortRecords(5)
             let putData = generateExampleLongRecord(data[2])
             putData.location_name = null
-            doPutTest('/trainings/3', data, 500, putData, null, done)
+            doPutTest('/trainings/3?' + authString, data, 500, putData, null, done)
         })
     })
     describe('POST /trainings', () => {
         it('returns 201 and adds new valid data to the database', (done) => {
             let data = generateExampleShortRecords(5)
             let postData = generateExampleLongRecord(data[4])
-            doPostTest('/trainings', data.slice(0,4), 201, postData, {id: 5}, done)
+            doPostTest('/trainings?' + authString, data.slice(0,4), 201, postData, {id: 5}, done)
         })
         it('returns 500 server error for invalid data', (done) => {
             let data = generateExampleShortRecords(5)
             let postData = generateExampleLongRecord(data[4])
             postData.location_name = null
-            doPostTest('/trainings', data, 500, postData, null, done)
+            doPostTest('/trainings?' + authString, data, 500, postData, null, done)
         })
     })
     describe('DELETE /trainings/:id', () => {
         it('deletes an existing training and returns 204 no data', (done) => {
             let data = generateExampleShortRecords(5)
-            doDeleteTest('/trainings/3', data, 204, '', done)
+            doDeleteTest('/trainings/3?' + authString, data, 204, '', done)
         })
         it('returns 404 not found for an invalid id', (done) => {
             let data = generateExampleShortRecords(5)
-            doDeleteTest('/trainings/10', data, 404, {error: "Resource does not exist"}, done)
+            doDeleteTest('/trainings/10?' + authString, data, 404, {error: "Resource does not exist"}, done)
         })
     })
     describe('POST /distribute', () => {
@@ -275,7 +277,7 @@ describe('trainings', () => {
             addTestRecord(data, err => {
                 if (err) {done(err); return}
                 supertest(app)
-                    .post('/distribute')
+                    .post('/distribute?' + authString)
                     .expect('Content-Type',/text\/html/)
                     .expect(200, done)
             })
@@ -288,7 +290,7 @@ describe('trainings', () => {
             addTestRecord(data, err => {
                 if (err) {done(err); return}
                 supertest(app)
-                    .post('/distribute?limittoweek=1')
+                    .post('/distribute?limittoweek=1&' + authString)
                     .expect('Content-Type',/application\/json/)
                     .expect(200, {info: "Email not sent because no data within a week"}, done)
             })
@@ -299,9 +301,30 @@ describe('trainings', () => {
             addTestRecord(data, err => {
                 if (err) {done(err); return}
                 supertest(app)
-                    .post('/distribute?limittoweek=1')
+                    .post('/distribute?limittoweek=1&' + authString)
                     .expect('Content-Type',/text\/html/)
                     .expect(200, done)
+            })
+        })
+    })
+    describe('POST /send-the-weekly-email?options', () => {
+        it('returns 200 with auth', (done) => {
+            let data = generateExampleShortRecords(5)
+            addTestRecord(data, err => {
+                if (err) {done(err); return}
+                supertest(app)
+                    .post('/send-the-weekly-email?' + authString)
+                    .expect('Content-Type',/text\/html/)
+                    .expect(200, done)
+            })
+        })
+        it('redirects without auth', (done) => {
+            let data = generateExampleShortRecords(5)
+            addTestRecord(data, err => {
+                if (err) {done(err); return}
+                supertest(app)
+                    .post('/send-the-weekly-email')
+                    .expect(302, done)
             })
         })
     })

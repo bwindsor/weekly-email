@@ -63,6 +63,8 @@ Update `index.js` to contain the message you would like, then to run:
 
 `TABLE_NAME` To override the default table name of `trainings` then set this.
 
+`NO_AUTH` to disable authorisation set this to `"1"`
+
 ## Use as a module
 ```Javascript
 const sendMail = require('./send-mail').default;
