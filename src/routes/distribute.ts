@@ -1,4 +1,3 @@
-
 import * as express from "express";
 import * as dbread from "../data/read"
 import * as pug from "pug"
@@ -9,15 +8,22 @@ import * as fs from 'fs'
 import {} from ''
 var createTextVersion = require("textversionjs");
 
-const FROM_ADDRESS = credentials.email.from_address;
-const TO_ADDRESS = credentials.email.to_address;
-const TO_ADDRESS_TEST = credentials.email.to_address_test;
+const FROM_ADDRESS = credentials.email.from;
 const SUBJECT = 'Orienteering This Week';
 
 const router = express.Router();
 
 // Distribute a training
 router.post('/', (req, res) => {
+    if (!req.body.to) {
+        res.status(400).json({error: "To not specified"})
+        return;
+    }
+    processDistribute(req, res, req.body.to)
+});
+
+export function processDistribute(req, res, toAddress) {
+
     // Filter for only future data
     let filters: dbread.TrainingFilters = {
         after: (new Date()).getTime()/1000,
@@ -46,20 +52,27 @@ router.post('/', (req, res) => {
                     if (process.env.TEST_ENVIRONMENT != "1") {
                         sendMail({
                             from: FROM_ADDRESS,
-                            to: (req.query.test==="0")?TO_ADDRESS:TO_ADDRESS_TEST,
+                            to: toAddress,
                             subject: SUBJECT,
                             text: createTextVersion(html),
                             html: inlinedHtml
+                        }, (err, info) => {
+                            if (err) {
+                                res.status(500).json({error: err})
+                            } else {
+                                res.setHeader('Content-Type', 'text/html')
+                                res.status(200).send(html)
+                            }
                         });
+                    } else {
+                        res.status(200).send(html)
                     }
-                    res.setHeader('Content-Type', 'text/html')
-                    res.status(200).send(html)
                 }).catch(err => {
                     res.status(500).json({error: err});
                 })
             }
         })
     })
-});
+}
 
 export default router;

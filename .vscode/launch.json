@@ -28,7 +28,8 @@
             "name": "Debug tests",
             "env": {
                 "TEST_ENVIRONMENT": "1",
-                "TABLE_NAME": "trainings_test"
+                "TABLE_NAME": "trainings_test",
+                "NO_AUTH": "1"
             },
             "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
             "args": [

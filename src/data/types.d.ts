@@ -43,8 +43,19 @@ export interface WebCredentials {
     password: string
 }
 
+export interface AWSCredentials {
+    "accessKeyId": string,
+    "secretAccessKey": string,
+    "region": string
+}
+export interface EmailAddresses {
+    from: string;
+    defaultTo: string;
+}
+
 export interface Credentials {
-    email: any,
+    aws: AWSCredentials,
+    email: EmailAddresses,
     mysql: MySqlCredentials,
     web: WebCredentials
 }

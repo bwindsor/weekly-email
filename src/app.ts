@@ -11,6 +11,7 @@ import {Strategy} from "passport-local"
 import credentials from "./data/credentials"
 import {User} from "./data/types.d"
 import * as session from "express-session"
+import {processDistribute} from "./routes/distribute"
 
 let static_folder = (process.argv.length>2)?process.argv[2]:'public'
 
@@ -70,14 +71,22 @@ app.use(session({ secret: 'orienteeringisthebestthingsever' })); // session secr
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.post('/send-the-weekly-email', (req, res, next) => {
+    if (process.env.NO_AUTH=="1" || (req.query.username == credentials.web.username && req.query.password == credentials.web.password)) {
+        processDistribute(req, res, (req.query.to)?req.query.to:credentials.email.defaultTo)
+    } else {
+        return next()
+    }
+})
+
 app.use('/login', login); // login
 
 // route middleware to make sure they are logged in
 app.use((req, res, next) => {
 
 	// if user is authenticated in the session, carry on
-    // also allow them to authenticate via query string
-	if (req.isAuthenticated() || (req.query.username == credentials.web.username && req.query.password == credentials.web.password)) {
+    // Authenticate with query string if we are in test mode
+	if (req.isAuthenticated() || process.env.NO_AUTH=="1" || (process.env.TEST_ENVIRONMENT=="1" && req.query.username == credentials.web.username && req.query.password == credentials.web.password)) {
 		return next();
     }
 
