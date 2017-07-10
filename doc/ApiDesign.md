@@ -84,10 +84,7 @@ Returns a `204 NO CONTENT` response if delete was successful.
 The query string can be omitted, or can include the following
 Option name | Type | Required | Description
 ----------- | ---- | -------- | -----------
-test | boolean (0 or 1) | no | Default 1. Whether this should be sent as a test message.
 limittoweek | boolean (0 or 1) | no | Default 0. If 1, the email is only sent if a training exists within one week of midnight at the end of the current day.
-
-Note the query string include `?test=0` in order to send the actual weekly email. Be default a test message is sent.
 
 The message body should contain the following JSON:
 * `to` - email address to send the message to
@@ -100,6 +97,8 @@ The message body should contain the following JSON:
 ```
 
 Returns `200 OK` if the send was successful.
+Returns `400 Bad Request` if the to field was not included in the JSON
+Returns `500 Internal Server Error` if the email couldn't be sent for some reason
 
 ## Send the weekly email (no auth)
 `POST /send-the-weekly-email?options
@@ -108,5 +107,5 @@ Option name | Type | Required
 ----------- | ---- | --------
 username | string | yes
 password | string | yes
-test | boolean (0 or 1) | no
 limittoweek | boolean (0 or 1) | no
+to | string | no | If not specified, the server sends the default address set in `credentials.json`

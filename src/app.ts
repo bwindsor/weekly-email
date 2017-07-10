@@ -73,7 +73,7 @@ app.use(passport.session());
 
 app.post('/send-the-weekly-email', (req, res, next) => {
     if (process.env.NO_AUTH=="1" || (req.query.username == credentials.web.username && req.query.password == credentials.web.password)) {
-        processDistribute(req, res, credentials.email.defaultTo)
+        processDistribute(req, res, (req.query.to)?req.query.to:credentials.email.defaultTo)
     } else {
         return next()
     }
