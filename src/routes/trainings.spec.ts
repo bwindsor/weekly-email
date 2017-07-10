@@ -278,8 +278,19 @@ describe('trainings', () => {
                 if (err) {done(err); return}
                 supertest(app)
                     .post('/distribute?' + authString)
+                    .send({"to": "email@email.com"})
                     .expect('Content-Type',/text\/html/)
                     .expect(200, done)
+            })
+        })
+        it('returns 400 bad request when no email specified', (done) => {
+            let data = generateExampleShortRecords(5)
+            addTestRecord(data, err => {
+                if (err) {done(err); return}
+                supertest(app)
+                    .post('/distribute?' + authString)
+                    .expect('Content-Type',/application\/json/)
+                    .expect(400, done)
             })
         })
     })
@@ -291,6 +302,7 @@ describe('trainings', () => {
                 if (err) {done(err); return}
                 supertest(app)
                     .post('/distribute?limittoweek=1&' + authString)
+                    .send({"to": "email@email.com"})
                     .expect('Content-Type',/application\/json/)
                     .expect(200, {info: "Email not sent because no data within a week"}, done)
             })
@@ -302,6 +314,7 @@ describe('trainings', () => {
                 if (err) {done(err); return}
                 supertest(app)
                     .post('/distribute?limittoweek=1&' + authString)
+                    .send({"to": "email@email.com"})
                     .expect('Content-Type',/text\/html/)
                     .expect(200, done)
             })

@@ -49,9 +49,8 @@ export interface AWSCredentials {
     "region": string
 }
 export interface EmailAddresses {
-    from: string,
-    to: string,
-    toTest: string
+    from: string;
+    defaultTo: string;
 }
 
 export interface Credentials {

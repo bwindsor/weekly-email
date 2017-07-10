@@ -89,9 +89,12 @@ limittoweek | boolean (0 or 1) | no | Default 0. If 1, the email is only sent if
 
 Note the query string include `?test=0` in order to send the actual weekly email. Be default a test message is sent.
 
-The message body can be empty, or can contain a welcome message to go at the top of the email. This should be an array of strings, corresponding to paragraphs.
+The message body should contain the following JSON:
+* `to` - email address to send the message to
+* `welcome_text` - optional, can contain a welcome message to go at the top of the email. This should be an array of strings, corresponding to paragraphs.
 ```Json
 {
+    "to": "youraddress@yourdomain.com"
     "welcome_text": ["Hi all,", "This is the first email from me!", "Ben"]
 }
 ```

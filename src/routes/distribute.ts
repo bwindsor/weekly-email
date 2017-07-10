@@ -9,18 +9,21 @@ import {} from ''
 var createTextVersion = require("textversionjs");
 
 const FROM_ADDRESS = credentials.email.from;
-const TO_ADDRESS = credentials.email.to;
-const TO_ADDRESS_TEST = credentials.email.toTest;
 const SUBJECT = 'Orienteering This Week';
 
 const router = express.Router();
 
 // Distribute a training
 router.post('/', (req, res) => {
-    processDistribute(req, res)
+    if (!req.body.to) {
+        res.status(400).json({error: "To not specified"})
+        return;
+    }
+    processDistribute(req, res, req.body.to)
 });
 
-export function processDistribute(req, res) {
+export function processDistribute(req, res, toAddress) {
+
     // Filter for only future data
     let filters: dbread.TrainingFilters = {
         after: (new Date()).getTime()/1000,
@@ -49,7 +52,7 @@ export function processDistribute(req, res) {
                     if (process.env.TEST_ENVIRONMENT != "1") {
                         sendMail({
                             from: FROM_ADDRESS,
-                            to: (req.query.test==="0")?TO_ADDRESS:TO_ADDRESS_TEST,
+                            to: toAddress,
                             subject: SUBJECT,
                             text: createTextVersion(html),
                             html: inlinedHtml
