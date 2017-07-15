@@ -331,6 +331,16 @@ describe('trainings', () => {
                     .expect(200, done)
             })
         })
+        it('returns 200 with a specified email address and auth', (done)=>{
+            let data = generateExampleShortRecords(5)
+            addTestRecord(data, err => {
+                if (err) {done(err); return}
+                supertest(app)
+                    .post('/send-the-weekly-email?' + 'to=myexampleemail@gmail.com&' + authString)
+                    .expect('Content-Type',/text\/html/)
+                    .expect(200, done)
+            })
+        })
         it('redirects without auth', (done) => {
             let data = generateExampleShortRecords(5)
             addTestRecord(data, err => {
