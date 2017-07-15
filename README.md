@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/bwindsor/weekly-email.svg?branch=master)](https://travis-ci.org/bwindsor/weekly-email)
+
 # weekly-email
 For sending the weekly email out for training nights.
 
