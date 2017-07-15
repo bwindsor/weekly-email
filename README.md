@@ -18,7 +18,7 @@ node dist/index.js path/to/my/static/folder
 
 [Amazon web services SES](https://aws.amazon.com/ses/) is used to send emails. You'll need to get your `accessKeyId`, `secretAccessKey` and `region` and put them into the credentials file.
 
-Create a `credentials.json` file in the working directory of the project, which should look something like this:
+Copy the a `credentials_template.json` file in the working directory of the project to `credentials.json` and populate it, which should look something like this:
 ```Json
 {
     "aws": {

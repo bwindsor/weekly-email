@@ -1,7 +1,7 @@
 import {Credentials} from './types.d'
 import * as fs from 'fs';
 
-let content = fs.readFileSync('./credentials.json');
+let content = fs.readFileSync(process.env.TEST_ENVIRONMENT=="1"?'./credentials_template.json':'./credentials.json');
 let credentials: Credentials = JSON.parse(content.toString());
 if (!credentials.mysql) {
     credentials = {
