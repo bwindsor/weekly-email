@@ -1,5 +1,5 @@
 import {TrainingSession, NewTrainingSession, DataCallback} from "./types.d"
-import {pool, TABLE_NAME} from './common'
+import {pool, TABLE_NAME, validateTraining} from './common'
 import {field_definitions, field_names} from './contract'
 import * as mysql from 'mysql'
 
@@ -23,6 +23,11 @@ export function createTable(table_name: string, done?: any) {
 }
 
 export function createTraining(data : NewTrainingSession, done: DataCallback<TrainingSession>) {
+    if (!validateTraining({...data, id: 0})) {
+        done("Data was not valid.", null)
+        return;
+    }
+
     pool.getConnection((err, connection) => {
         if (err) {
             done(err, null);

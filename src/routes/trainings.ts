@@ -102,6 +102,7 @@ router.delete('/:id', (req, res) => {
     dbread.exists(req.params.id, doesExist => {
         if (!doesExist) {
             res.status(404).json({error: "Resource does not exist"})
+            return
         }
         dbdelete.deleteTraining(req.params.id, (err : any) => {
             if (err) {

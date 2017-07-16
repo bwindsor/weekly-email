@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/bwindsor/weekly-email.svg?branch=master)](https://travis-ci.org/bwindsor/weekly-email)
+
 # weekly-email
 For sending the weekly email out for training nights.
 
@@ -16,12 +18,9 @@ To specify a different static folder, use
 node dist/index.js path/to/my/static/folder
 ```
 
-From [this stackoverflow question](https://stackoverflow.com/questions/26196467/sending-email-via-node-js-using-nodemailer-is-not-working):
-1. Search "Gmail API" from the google API console and click "Enable"
-2. Follow the steps [supplied by Google](https://developers.google.com/gmail/api/quickstart/nodejs). A slightly modified version of `quickstart.js` is already provided here. Use this one where the guide tells you to.
-3. After following the steps in (2), the generated JSON file in your user directory will contain the `accessToken`, `refreshToken`, and `expires` attributes needed. The `clientId` and `clientSecret` are supplied in the `client_secret` JSON downloadable from the google API console.
+[Amazon web services SES](https://aws.amazon.com/ses/) is used to send emails. You'll need to get your `accessKeyId`, `secretAccessKey` and `region` and put them into the credentials file.
 
-Create a `credentials.json` file in the working directory of the project, which should look something like this:
+Copy the a `credentials_template.json` file in the working directory of the project to `credentials.json` and populate it, which should look something like this:
 ```Json
 {
     "aws": {

@@ -1,0 +1,13 @@
+language: node_js
+node_js:
+  - "6"
+services:
+  - mysql
+env:
+  - RDS_HOSTNAME=localhost RDS_DB_NAME=testdb RDS_USERNAME=travis RDS_PASSWORD="" RDS_ROOT_USER=root RDS_ROOT_PASS="" RDS_PORT=3306
+before_install:
+  - mysql -e 'CREATE DATABASE IF NOT EXISTS testdb'
+  - echo $RDS_PASSWORD
+cache:
+  directories:
+    - "node_modules"
