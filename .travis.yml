@@ -4,13 +4,7 @@ node_js:
 services:
   - mysql
 env:
-  - RDS_HOSTNAME=localhost
-  - RDS_DB_NAME=testdb
-  - RDS_USERNAME=travis
-  - RDS_PASSWORD=""
-  - RDS_ROOT_USER=root
-  - RDS_ROOT_PASS=""
-  - RDS_PORT=3306
+  - RDS_HOSTNAME=localhost RDS_DB_NAME=testdb RDS_USERNAME=travis RDS_PASSWORD="" RDS_ROOT_USER=root RDS_ROOT_PASS="" RDS_PORT=3306
 before_install:
   - mysql -e 'CREATE DATABASE IF NOT EXISTS testdb'
 cache:
