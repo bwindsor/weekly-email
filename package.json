@@ -9,7 +9,8 @@
     "build": "node_modules/.bin/tsc",
     "setup": "npm run initialise_db",
     "initialise_db": "node scripts/initialise_db.js",
-    "test": "npm run build && set TEST_ENVIRONMENT=1&& mocha ./build/**/*.spec.js",
+    "test": "npm run build && export TEST_ENVIRONMENT=1&& mocha ./build/**/*.spec.js",
+    "test-windows": "set TEST_ENVIRONMENT=1&& npm run build && mocha ./build/**/*.spec.js",
     "build-production": "node_modules/.bin/tsc -p tsconfig.production.json",
     "start-production": "node dist/src/index.js"
   },
