@@ -1,6 +1,7 @@
 import * as mysql from 'mysql'
 import * as fs from 'fs'
 import credentials from './credentials'
+import {TrainingSession} from './types.d'
 
 export const TABLE_NAME = process.env.TABLE_NAME || ((process.env.TEST_ENVIRONMENT=="1")?"trainings_test": "trainings");
 export var pool : mysql.IPool;
@@ -26,3 +27,11 @@ pool  = mysql.createPool({
   database : credentials.mysql.db_name,
   port     : credentials.mysql.port
 });
+
+export function validateTraining(training: TrainingSession) {
+    return (
+      training.location_name != null &&
+      training.date_start != null &&
+      (training.juniors == null || training.juniors == true || training.juniors == false)
+    )
+}
