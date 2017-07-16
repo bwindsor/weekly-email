@@ -1,7 +1,7 @@
 import {Credentials} from './types.d'
 import * as fs from 'fs';
 
-let content = fs.readFileSync(process.env.TEST_ENVIRONMENT=="1"?'./credentials_template.json':'./credentials.json');
+let content = fs.readFileSync(fs.existsSync('./credentials.json')?'./credentials.json':'./credentials_template.json');
 let credentials: Credentials = JSON.parse(content.toString());
 // Override with anything set in the environment
 credentials = {
@@ -20,9 +20,9 @@ export default credentials
 
 function parseEnv(varName, defaultValue) {
     let v = process.env[varName]
-    if (v === undefined || v==='') {
-        return v
-    } else {
+    if (v===undefined) {
         return defaultValue
+    } else {
+        return v
     }
 }
